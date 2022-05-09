@@ -25,6 +25,7 @@ async function run(){
      try{
         await client.connect();
         const productCollection = client.db('wareHouse').collection('product');
+        const productsCollection = client.db('wareHouse').collection('products');
         
         app.get('/product', async (req, res) =>{
             const page =parseInt(req.query.page)
@@ -38,6 +39,17 @@ async function run(){
             else{
                 products = await cursor.toArray();
             }
+         
+            res.send(products);
+        })
+        app.get('/products', async (req, res) =>{
+            
+            const query = {};
+            const cursor = productsCollection.find(query);
+            const products = await cursor.toArray();
+            
+            
+             
          
             res.send(products);
         })
