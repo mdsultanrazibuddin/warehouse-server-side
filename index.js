@@ -10,13 +10,14 @@ app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.b3os3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+console.log(uri);
 
 async function run(){
      try{
         await client.connect();
         const productCollection = client.db('wareHouse').collection('product');
         const productsCollection = client.db('wareHouse').collection('products');
-        
+        console.log('all route working')
         app.get('/product', async (req, res) =>{
             const page =parseInt(req.query.page)
             const size =parseInt(req.query.size)
@@ -54,8 +55,10 @@ async function run(){
            
             res.send(product);
         })
+       
 
-        // insertone
+        // insertOne
+
         app.post('/product', async(req, res) =>{
             const newProduct = req.body;
             const result = await productCollection.insertOne(newProduct);
